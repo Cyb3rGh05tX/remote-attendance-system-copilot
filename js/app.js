@@ -1,4 +1,4 @@
-const WEB_APP_URL = "YOUR_GOOGLE_SCRIPT_WEBAPP_URL_HERE";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwO7rRBaZT_PvPDNVd7HHyTvldn9n3abxFYikvJ_pHoILH27XDWO6hZb88HOH8Xw-Tr/exec";
 
 let currentUser = null;
 
@@ -18,7 +18,7 @@ async function login() {
 }
 
 async function checkIn() {
-  const date = new Date().toLocaleString();
+  const date = new Date().toISOString();
   const payload = [currentUser[0], date, date, ""];
   await fetch(WEB_APP_URL + "?sheet=Attendance", {
     method: "POST",
@@ -28,7 +28,7 @@ async function checkIn() {
 }
 
 async function checkOut() {
-  const date = new Date().toLocaleString();
+  const date = new Date().toISOString();
   const payload = [currentUser[0], date, "", date];
   await fetch(WEB_APP_URL + "?sheet=Attendance", {
     method: "POST",
@@ -40,7 +40,7 @@ async function checkOut() {
 async function updateTask() {
   const taskTitle = document.getElementById("taskTitle").value;
   const taskStatus = document.getElementById("taskStatus").value;
-  const date = new Date().toLocaleString();
+  const date = new Date().toISOString();
 
   const payload = ["task_" + Date.now(), currentUser[0], taskTitle, taskStatus, date];
   await fetch(WEB_APP_URL + "?sheet=Tasks", {
