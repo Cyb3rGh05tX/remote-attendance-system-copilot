@@ -3,146 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remote Employee Tracker</title>
+    <title>Remote Employee Tracker | Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Login Page -->
-    <div id="loginPage" class="login-container">
-        <div class="login-box">
-            <div class="logo">
-                <i class="fas fa-user-clock fa-3x" style="color: #4361ee; margin-bottom: 20px;"></i>
-                <h1>Remote Employee Tracker</h1>
-                <p class="subtitle">Attendance & Task Management System</p>
-            </div>
-            
-            <div class="input-group">
-                <label for="userId"><i class="fas fa-user"></i> User ID</label>
-                <input type="text" id="userId" placeholder="Enter your User ID (e.g., EMP001)" autocomplete="off">
-                <small class="hint">Try: EMP001, EMP002, or ADM001</small>
-            </div>
-            
-            <button id="loginBtn" class="btn btn-primary btn-block">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-            
-            <div class="demo-credentials">
-                <h3><i class="fas fa-info-circle"></i> Demo Credentials:</h3>
-                <p><strong>Employee:</strong> EMP001 (John Doe)</p>
-                <p><strong>Employee:</strong> EMP002 (Jane Smith)</p>
-                <p><strong>Admin:</strong> ADM001 (Admin User)</p>
-                <p><em>Note: No password required for demo</em></p>
+    <!-- Login Screen -->
+    <div id="loginPage" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo">
+                        <i class="fas fa-user-clock"></i>
+                        <h1>Remote Tracker Pro</h1>
+                    </div>
+                    <p class="tagline">Smart Attendance & Task Management System</p>
+                </div>
+                
+                <div class="login-body">
+                    <div class="form-group">
+                        <label for="userId">
+                            <i class="fas fa-id-card"></i> Employee ID
+                        </label>
+                        <input 
+                            type="text" 
+                            id="userId" 
+                            placeholder="Enter your ID (e.g., EMP001)"
+                            autocomplete="off"
+                            autofocus
+                        >
+                        <div class="input-hint">
+                            <i class="fas fa-lightbulb"></i> Demo IDs: EMP001, EMP002, EMP003, ADM001
+                        </div>
+                    </div>
+                    
+                    <button id="loginBtn" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login to Dashboard</span>
+                    </button>
+                    
+                    <div class="demo-info">
+                        <h3><i class="fas fa-rocket"></i> Quick Start Guide</h3>
+                        <ul>
+                            <li><strong>EMP001</strong> - John Doe (Employee)</li>
+                            <li><strong>EMP002</strong> - Jane Smith (Employee)</li>
+                            <li><strong>EMP003</strong> - Robert Johnson (Employee)</li>
+                            <li><strong>ADM001</strong> - Admin User (Administrator)</li>
+                        </ul>
+                        <p class="note"><i class="fas fa-info-circle"></i> No password required for demo</p>
+                    </div>
+                </div>
+                
+                <div class="login-footer">
+                    <p><i class="fas fa-shield-alt"></i> Secure & Professional Employee Tracking System</p>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Main Dashboard -->
     <div id="dashboard" class="dashboard" style="display: none;">
-        <!-- Header -->
-        <div class="header">
-            <div>
-                <h2><i class="fas fa-tachometer-alt"></i> Employee Dashboard</h2>
-                <p class="current-time" id="currentTime"></p>
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <i class="fas fa-user-clock"></i>
+                <h2>Employee Dashboard</h2>
             </div>
-            <div class="user-info">
-                <div class="user-details">
-                    <span id="userName"></span>
-                    <small>ID: <span id="userIdDisplay"></span></small>
-                </div>
-                <button onclick="logout()" class="btn btn-outline">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-                <button onclick="goToAdmin()" class="btn btn-primary" id="adminBtn" style="display: none;">
-                    <i class="fas fa-cogs"></i> Admin Panel
-                </button>
-            </div>
-        </div>
-
-        <!-- Alert -->
-        <div id="alert" class="alert" style="display: none;"></div>
-
-        <!-- Loading Spinner -->
-        <div id="loading" class="spinner" style="display: none;"></div>
-
-        <!-- Main Content -->
-        <div class="cards">
-            <!-- Attendance Card -->
-            <div class="card attendance-card">
-                <h3><i class="fas fa-calendar-check"></i> Daily Attendance</h3>
-                <div class="attendance-status">
-                    <div>
-                        <strong>Check-In Time:</strong>
-                        <div class="time-display" id="checkInTime">--:--:--</div>
-                    </div>
-                    <div>
-                        <strong>Check-Out Time:</strong>
-                        <div class="time-display" id="checkOutTime">--:--:--</div>
-                    </div>
-                    <div class="attendance-actions">
-                        <button id="checkInBtn" class="btn btn-success">
-                            <i class="fas fa-sign-in-alt"></i> Check In
-                        </button>
-                        <button id="checkOutBtn" class="btn btn-danger" disabled>
-                            <i class="fas fa-sign-out-alt"></i> Check Out
-                        </button>
-                    </div>
+            
+            <div class="nav-info">
+                <div class="real-time-clock">
+                    <i class="fas fa-clock"></i>
+                    <span id="currentTime">00:00:00</span>
                 </div>
                 <div class="today-date">
-                    <i class="fas fa-clock"></i> Today: <span id="todayDate"></span>
+                    <i class="fas fa-calendar-day"></i>
+                    <span id="todayDate">Loading...</span>
                 </div>
             </div>
-
-            <!-- Task Management Card -->
-            <div class="card">
-                <h3><i class="fas fa-tasks"></i> Task Management</h3>
-                <div class="task-form">
-                    <input type="text" id="taskTitle" placeholder="Enter new task title...">
-                    <button id="addTaskBtn" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Task
+            
+            <div class="user-profile">
+                <div class="profile-info">
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <strong id="userName">User Name</strong>
+                        <small>ID: <span id="userIdDisplay">EMP001</span></small>
+                    </div>
+                </div>
+                <div class="nav-actions">
+                    <button id="adminBtn" class="btn-admin" style="display: none;">
+                        <i class="fas fa-cogs"></i> Admin Panel
+                    </button>
+                    <button id="logoutBtn" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
-                <div class="task-list" id="taskList">
-                    <!-- Tasks will be loaded here -->
-                    <div class="empty-state">
-                        <i class="fas fa-clipboard-list fa-2x"></i>
-                        <p>No tasks yet. Add your first task!</p>
+            </div>
+        </nav>
+
+        <!-- Alert Container -->
+        <div id="alertContainer" class="alert-container">
+            <div id="alert" class="alert" style="display: none;"></div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Row 1: Attendance & Quick Stats -->
+            <div class="content-row">
+                <!-- Attendance Card -->
+                <div class="card attendance-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-check"></i> Today's Attendance</h3>
+                        <div class="card-badge" id="attendanceStatus">Not Checked In</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="time-displays">
+                            <div class="time-slot">
+                                <div class="time-label">
+                                    <i class="fas fa-sign-in-alt"></i> Check-In
+                                </div>
+                                <div class="time-value" id="checkInTime">--:--:--</div>
+                            </div>
+                            <div class="time-slot">
+                                <div class="time-label">
+                                    <i class="fas fa-sign-out-alt"></i> Check-Out
+                                </div>
+                                <div class="time-value" id="checkOutTime">--:--:--</div>
+                            </div>
+                        </div>
+                        <div class="attendance-actions">
+                            <button id="checkInBtn" class="btn-checkin">
+                                <i class="fas fa-play-circle"></i> Check In Now
+                            </button>
+                            <button id="checkOutBtn" class="btn-checkout" disabled>
+                                <i class="fas fa-stop-circle"></i> Check Out
+                            </button>
+                        </div>
+                        <div class="work-hours">
+                            <i class="fas fa-business-time"></i>
+                            <span>Today's Hours: </span>
+                            <strong id="todayHours">0.00</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats Card -->
+                <div class="card stats-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> This Week Stats</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon" style="background: #4cc9f0;">
+                                    <i class="fas fa-calendar-week"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="daysPresent">0</div>
+                                    <div class="stat-label">Days Present</div>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon" style="background: #7209b7;">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="totalHours">0</div>
+                                    <div class="stat-label">Total Hours</div>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon" style="background: #f72585;">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="totalTasks">0</div>
+                                    <div class="stat-label">Total Tasks</div>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon" style="background: #4361ee;">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="completedTasks">0</div>
+                                    <div class="stat-label">Completed</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent Attendance History -->
-            <div class="card">
-                <h3><i class="fas fa-history"></i> Recent Attendance</h3>
-                <div class="table-container">
-                    <table id="attendanceHistory">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Check In</th>
-                                <th>Check Out</th>
-                                <th>Hours</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Attendance history will be loaded here -->
-                        </tbody>
-                    </table>
+            <!-- Row 2: Task Management -->
+            <div class="content-row">
+                <div class="card task-manager-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-tasks"></i> Task Management</h3>
+                        <button class="btn-refresh" onclick="loadTasks()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="task-input-section">
+                            <input 
+                                type="text" 
+                                id="taskTitle" 
+                                placeholder="Enter new task title..."
+                                class="task-input"
+                            >
+                            <button id="addTaskBtn" class="btn-add-task">
+                                <i class="fas fa-plus"></i> Add Task
+                            </button>
+                        </div>
+                        
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">All Tasks</button>
+                            <button class="filter-btn" data-filter="not-started">Not Started</button>
+                            <button class="filter-btn" data-filter="in-progress">In Progress</button>
+                            <button class="filter-btn" data-filter="completed">Completed</button>
+                        </div>
+                        
+                        <div class="task-list-container">
+                            <div class="task-list" id="taskList">
+                                <!-- Tasks will load here -->
+                                <div class="empty-state">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <p>No tasks yet. Add your first task!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Statistics Card -->
-            <div class="card">
-                <h3><i class="fas fa-chart-bar"></i> This Week's Statistics</h3>
-                <div class="stats-container">
-                    <canvas id="weeklyChart" height="200"></canvas>
+            <!-- Row 3: Recent Activity & Attendance History -->
+            <div class="content-row">
+                <!-- Recent Activity -->
+                <div class="card activity-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-list" id="activityList">
+                            <!-- Activities will load here -->
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Welcome to your dashboard!</p>
+                                    <small>Just now</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stats-summary" id="weeklyStats">
-                    <!-- Weekly stats will be loaded here -->
+
+                <!-- Attendance History -->
+                <div class="card history-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Attendance History</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table id="attendanceHistory">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Hours</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- History will load here -->
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; padding: 20px;">
+                                            <i class="fas fa-history"></i> No records yet
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>
+                <i class="fas fa-copyright"></i> 2024 Remote Employee Tracker System | 
+                <span id="connectionStatus" class="status-online">
+                    <i class="fas fa-wifi"></i> Connected
+                </span>
+            </p>
+        </footer>
     </div>
 
     <script src="js/app.js"></script>
